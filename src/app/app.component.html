@@ -1,0 +1,221 @@
+<div class="titre">
+  <h1>Bonnes pratiques JS</h1>
+</div>
+<app-console-interactive></app-console-interactive>
+
+<chapitre titre='Portée des variables'>
+  <p>
+    En javascript les variables sont dites dynamiques et ont plusieurs niveaux de portées:
+  </p>
+  <app-sous-chapitre>
+    La variable globale: Une simple assignation à une variable inconnue permet de créer cette variable. Cette variable
+    aura une portée maximale. Par défaut les variables JS appartiennent au contexte global et sont donc accessible de
+    n'importe où.
+  </app-sous-chapitre>
+  <app-sous-chapitre>
+
+    Les variables peuvent être déclarée par les mots clefs 'var' et 'let'(ES6).
+    <br>
+    <span>var: la portée de la variable est limitée à la définition de la fonction.</span>
+    <br>
+    exemple 1:
+    <br>
+    <app-console-static [text]="['function toto(){',
+          '  var a = 3;',
+          '}',
+        'console.log(a);// undefined']">
+    </app-console-static>
+    <br>
+    exemple 2:
+    <br>
+    <app-console-static [text]="['for(var i = 0; i<5 ; i++){',
+    '  var a = 3;',
+    '}',
+    'console.log(a, i);// 3, 5']">
+    </app-console-static>
+
+    <br>
+    <span>let: la portée de la variable est limitée à la définition d'un bloc.<br></span>
+    <br>
+    exemple 1:
+    <br>
+    <app-console-static [text]="['function toto(){',
+          '  var a = 3;',
+          '}',
+        'console.log(a);// undefined']">
+    </app-console-static>
+    <br>
+    exemple 2:
+    <br>
+    <app-console-static [text]="['for(let i = 0; i<5 ; i++){',
+        '  let a = 3;',
+        '}',
+        'console.log(a, i);// undefined, undefined']">
+    </app-console-static>
+  </app-sous-chapitre>
+</chapitre>
+<chapitre titre='Fonction anonymes'>
+  <app-sous-chapitre>
+    <p>En JavaScript tout est objet, y compris les fonctions. une fonction peut donc être utilisée comme une
+      variable.</p>
+    <app-console-static [text]="[
+      'function toto(){',
+      '  console.log(\'{banana\');',
+      '}',
+      'function titi(toCall){',
+      '  toCall();',
+      '}',
+      'titi(toto);//banana'
+      ]">
+    </app-console-static>
+  </app-sous-chapitre>
+  <app-sous-chapitre>
+    <p>Il arrive souvent de faire passer des fonctions en paramètres. Ce méchanisme permet de laisser à l'appelant le
+      contrôle des évennements. Dans le cas d'un appel asynchrone notamment, on veut être prévenu de la fin du
+      traitement.</p>
+    <app-console-static [text]="[
+      'function traiterStatut(statut){',
+      '  console.log(statut);',
+      '}',
+      'getStatutServeur(traiterStatut);// appelera toto quand le serveur aura rendu son statut.'
+      ]">
+    </app-console-static>
+  </app-sous-chapitre>
+  <app-sous-chapitre>
+    <p>Pour revenir aux deux exemples précédents, les callbacks sont des méchanismes très utilisés, il est donc assez
+      peu intéressant d'avoir constament une fonction qui va posséder un nom pour la donner simplement en paramètre.</p>
+    <p>On utilise donc des fonctions anonymes. Ces méthodes n'ont pas de nom et sont reconnu comme des variables.</p>
+
+    <app-console-static [text]="[
+      'getStatutServeur(function(statut){',
+      '  console.log(statut);',
+      '});'
+      ]">
+    </app-console-static>
+
+    <p>On peut bien entendu donner la méthode d'un objet, en faisant attention au contexte.</p>
+    <app-console-static [text]="[
+      'getStatutServeur(console.log);'
+      ]">
+    </app-console-static>
+  </app-sous-chapitre>
+</chapitre>
+<chapitre titre="Je vous ai parlé de contexte?">
+  <app-sous-chapitre>
+    Le contexte, décrit par le mot clef 'this', permet de définir l'état d'un objet.
+    Comme dans beaucoup de langages, JavaScript offre ce mot clef, MAIS:
+    dans une méthode, le contexte n'est pas celui de définition de la méthode, mais le contexte de l'appelant!
+    Il éxiste donc gloabelement deux cas:
+    <ul>
+      <li>La méthode est appelée en préfixant l'objet. Dans ce cas le contexte de l'objet est utilisé.</li>
+      <li>La méthode est appelée après avoir été mise en référance dans une variable. Dans ce cas le contexte est celui
+        de l'endroit où l'on appel la fonction.
+      </li>
+    </ul>
+    voyons les exemples pour mieux voir l'effet:
+  </app-sous-chapitre>
+  <app-sous-chapitre>
+    Cas 1: la méthode est appelé en préfixant par l'instance de l'objet:
+    <app-console-static [text]="[
+      'this.a=2',
+      'let obj = {',
+      '  a:3,',
+      '  getA: function(){',
+      '          return this.a;',
+      '        }',
+      '}',
+      'obj.getA()// rend 3'
+      ]">
+    </app-console-static>
+  </app-sous-chapitre>
+  <app-sous-chapitre>
+    Cas 2: la méthode est d'abord mise dans une variable, puis appelée par référence:
+    <app-console-static [text]="[
+      'this.a=2',
+      'let obj = {',
+      '  a:3,',
+      '  getA: function(){',
+      '          return this.a;',
+      '        }',
+      '}',
+      'let f = obj.getA',
+      'f(); // rend 2'
+      ]">
+    </app-console-static>
+  </app-sous-chapitre>
+  <app-sous-chapitre>
+    Dans le second cas, le contexte est donné par la fonction d'appel qui donnera son propre contexte. Celle ci le
+    récupère de son propre appel et ainsi de suite, jusqu'a trouvé un objet en préfixe ou le contexte global.
+    Pour information, le contexte global en JS est l'objet window, mais ceci n'est pas particulièrement impactant.
+    (nodejs à aussi son contexte global de la même manière)
+  </app-sous-chapitre>
+</chapitre>
+<chapitre titre="Comment forcer le contexte?">
+  <p>Dans certains cas, on veut pouvoir forcer le contexte. notemment pour les callback. Et donc choisir le contexte qui
+    va être appelé avant de passer la fonction en variable ou paramètre.</p>
+  <app-sous-chapitre>
+    <h3>Pour ce faire on utilise le bind!</h3>
+    <p>
+      la méthode bind, que l'on peut retrouver sur toutes les fonctions ES5, prend en premier paramètre un contexte (qui
+      sera le this dans la fonction) et une suite d'autres paramètres qui seront les paramètres 'forcés' de la fonction.
+    </p>
+    <p>Par exemple on voudrait pouvoir pour une fonction donnée, pré-remplir les paramètres.</p>
+    Par exemple:
+    <app-console-static [text]="[
+      'this.y=2',
+      'let obj = {',
+      '  y:3,',
+      '  getY: function(a,b){',
+      '          return a * this.y + b;',
+      '        }',
+      '}',
+      'let f = obj.getY.bind(obj,1);',
+      'f(4); // rend 1*3+4 donc 7, la fonction f est donc la méthode getY avec le contexte \'obj\' et on appel f avec 4. ',
+      '//Donc a=1, this=obj, this.y= 3, b=4'
+      ]">
+    </app-console-static>
+  </app-sous-chapitre>
+  <app-sous-chapitre>
+    <p>On peut aussi définir le contexte avec les deux méthodes 'apply' et 'call', de la même manière que bind, ces deux
+      méthodes prennent le contexte en premier paramètre. En revanche apply prend en second paramètre une liste
+      d'arguments et call prend une suite d'arguments.</p>
+    <p>Bind est à appliquer avant appel et renvoit une fonction, apply et call eux appellent dans la foulée, ce qui
+      oblige à stoquer le contexte au moment de l'appel.
+    </p>
+
+    <app-console-static [text]="[
+      'this.y=2',
+      'let obj = {',
+      '  y:3,',
+      '  getY: function(a,b){',
+      '          return a * this.y + b;',
+      '        }',
+      '}',
+      'let f = obj.getY;',
+      'f.apply(obj, [1, 4]);//rend 7',
+      'f.call(obj, 1, 4);//rend 7'
+      ]">
+    </app-console-static>
+  </app-sous-chapitre>
+</chapitre>
+<chapitre titre="Les comparaisons">
+  <app-sous-chapitre>
+    <p>'==' ou '===' quel est la différence? et bien la comparaison tel qu'on la connaitrait sur un langage strict '==='
+      permet de vérifier le type, le '==' est lui un comparateur plus complexe qui permet de la comparaison entre
+      types.</p>
+    <p>Par exemple est que le 2(number) est égale à "2"(string)? oui et non... pour '==' oui, pour '===' non.</p>
+    <app-console-static [text]="[
+      '2==\'2\';// c'+getCote()+'est vrai dans les deux sens',
+      'let obj = {',
+      '  y:3,',
+      '  getY: function(a,b){',
+      '          return a * this.y + b;',
+      '        }',
+      '}',
+      'let f = obj.getY;',
+      'f.apply(obj, [1, 4]);//rend 7',
+      'f.call(obj, 1, 4);//rend 7'
+      ]">
+    </app-console-static>
+  </app-sous-chapitre>
+</chapitre>

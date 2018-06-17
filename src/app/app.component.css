@@ -1,0 +1,11 @@
+.titre {
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.titre > h1 {
+  text-align: center;
+  width: 100% ;
+}

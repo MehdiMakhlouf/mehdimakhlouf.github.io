@@ -1,0 +1,7 @@
+<button class="btn btn-default" (click)="export()">export console</button>
+<div [ngStyle]="{'height.em':height}" class="wrapper">
+  <ace-editor *ngIf="init" [text]="code"
+              [mode]="'javascript'"
+              [readOnly]="true" class="editor">
+  </ace-editor>
+</div>

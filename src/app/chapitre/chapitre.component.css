@@ -1,0 +1,6 @@
+.chapitre {
+  min-height: 100vh;
+  padding: 1em 0;
+  background-color: red;
+  border: 1px solid black;
+}
