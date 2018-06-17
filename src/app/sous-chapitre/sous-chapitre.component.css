@@ -1,6 +1,14 @@
-.ligne {
+.sous-chapitre {
   min-height: 10vh;
   margin: 0 1em 10vh 1em;
-  background-color: blue;
-  border: 1px solid black;
+}
+
+.sous-chapitre h3 {
+  font-size: 2rem;
+}
+
+@media print {
+  .sous-chapitre {
+    page-break-inside: avoid;
+  }
 }

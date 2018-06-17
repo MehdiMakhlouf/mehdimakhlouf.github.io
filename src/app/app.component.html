@@ -65,7 +65,7 @@
       'function titi(toCall){',
       '  toCall();',
       '}',
-      'titi(toto);//banana'
+      'console.log(titi(toto));//banana'
       ]">
     </app-console-static>
   </app-sous-chapitre>
@@ -77,6 +77,7 @@
       'function traiterStatut(statut){',
       '  console.log(statut);',
       '}',
+      'let getStatutServeur = (f)=>setTimeout(f.bind(null,1));',
       'getStatutServeur(traiterStatut);// appelera toto quand le serveur aura rendu son statut.'
       ]">
     </app-console-static>
@@ -87,6 +88,7 @@
     <p>On utilise donc des fonctions anonymes. Ces méthodes n'ont pas de nom et sont reconnu comme des variables.</p>
 
     <app-console-static [text]="[
+      'let getStatutServeur = (f)=>setTimeout(f.bind(null,1));',
       'getStatutServeur(function(statut){',
       '  console.log(statut);',
       '});'
@@ -95,6 +97,7 @@
 
     <p>On peut bien entendu donner la méthode d'un objet, en faisant attention au contexte.</p>
     <app-console-static [text]="[
+      'let getStatutServeur = (f)=>setTimeout(f.bind(null,1));',
       'getStatutServeur(console.log);'
       ]">
     </app-console-static>
@@ -124,7 +127,7 @@
       '          return this.a;',
       '        }',
       '}',
-      'obj.getA()// rend 3'
+      'console.log(obj.getA())// 3'
       ]">
     </app-console-static>
   </app-sous-chapitre>
@@ -139,7 +142,7 @@
       '        }',
       '}',
       'let f = obj.getA',
-      'f(); // rend 2'
+      'console.log(f()); // 2'
       ]">
     </app-console-static>
   </app-sous-chapitre>
@@ -170,7 +173,7 @@
       '        }',
       '}',
       'let f = obj.getY.bind(obj,1);',
-      'f(4); // rend 1*3+4 donc 7, la fonction f est donc la méthode getY avec le contexte \'obj\' et on appel f avec 4. ',
+      'console.log(f(4)); // rend 1*3+4 donc 7, la fonction f est donc la méthode getY avec le contexte \'obj\' et on appel f avec 4. ',
       '//Donc a=1, this=obj, this.y= 3, b=4'
       ]">
     </app-console-static>
@@ -192,8 +195,8 @@
       '        }',
       '}',
       'let f = obj.getY;',
-      'f.apply(obj, [1, 4]);//rend 7',
-      'f.call(obj, 1, 4);//rend 7'
+      'console.log(f.apply(obj, [1, 4]));// 7',
+      'console.log(f.call(obj, 1, 4));// 7'
       ]">
     </app-console-static>
   </app-sous-chapitre>
@@ -205,17 +208,25 @@
       types.</p>
     <p>Par exemple est que le 2(number) est égale à "2"(string)? oui et non... pour '==' oui, pour '===' non.</p>
     <app-console-static [text]="[
-      '2==\'2\';// c'+getCote()+'est vrai dans les deux sens',
-      'let obj = {',
-      '  y:3,',
-      '  getY: function(a,b){',
-      '          return a * this.y + b;',
-      '        }',
-      '}',
-      'let f = obj.getY;',
-      'f.apply(obj, [1, 4]);//rend 7',
-      'f.call(obj, 1, 4);//rend 7'
+      'console.log(2 == \'2\');// c'+getCote()+'est vrai dans les deux sens',
+      'console.log(2 === \'2\');// c'+getCote()+'est faux dans les deux sens',
+      'console.log(2 === +\'2\');// c'+getCote()+'est vrai dans les deux sens. (culture G +une chaine est égale à un chiffre)'
       ]">
     </app-console-static>
+    <p>Ce détail peut servir, notemment quand on utilise un router avec un Framework JS. Suivant le cas d'utilisation,
+      les variables d'URL peuvent être des entiers ou des chaines.</p>
+  </app-sous-chapitre>
+
+  <app-sous-chapitre>
+    <p>La comparaison de base des objets plus complexe est la comparaison par pointeur.</p>
+    <app-console-static [text]="[
+      'console.log(new String(\'a\') === new String(\'a\'));// est faux, ce sont des instances différentes',
+      'let a = new String(\'a\');',
+      'let b = a;',
+      'console.log(a === b);// est vrai, il s'+getCote()+'agit de la même instance'
+      ]">
+    </app-console-static>
+    <p>Pour faire des comparaisons plus complexes, notemment plus axé contenu que pointeur, les frameworks JS offre en
+      général leur propre comparaison tel que 'angular.equals'</p>
   </app-sous-chapitre>
 </chapitre>

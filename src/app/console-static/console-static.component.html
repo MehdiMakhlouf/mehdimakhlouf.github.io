@@ -1,4 +1,4 @@
-<button class="btn btn-default" (click)="export()">export console</button>
+<button class="btn btn-default export" (click)="export()"><i class="material-icons">import_export</i></button>
 <div [ngStyle]="{'height.em':height}" class="wrapper">
   <ace-editor *ngIf="init" [text]="code"
               [mode]="'javascript'"

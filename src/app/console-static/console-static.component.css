@@ -2,6 +2,16 @@
   position: relative;
 }
 
+@media print {
+  .export {
+    display: none;
+  }
+}
+
+.export {
+  display: block;
+}
+
 .editor {
   position: absolute;
   top: 0;

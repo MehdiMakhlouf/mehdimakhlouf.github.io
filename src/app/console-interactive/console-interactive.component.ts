@@ -31,9 +31,9 @@ export class ConsoleInteractiveComponent implements OnInit {
 
   constructor(private consoleInteractiveService: ConsoleInteractiveService) {
     const oldConsole = console.log.bind(console);
-    console.log = (args) => {
+    console.log = (...args: any[]) => {
       this.output.push(new Log(TypeLog.INFO, this.traiterArguments(args)));
-      if (args && args.isArray) {
+      if (args) {
         oldConsole(...args);
       } else {
         oldConsole(args);
@@ -51,7 +51,7 @@ export class ConsoleInteractiveComponent implements OnInit {
 
   public evaluate() {
     try {
-      eval(this.textConsole);
+      eval.bind(window)(this.textConsole);
     } catch (e) {
       this.output.push(new Log(TypeLog.ERREUR, e.toString()));
     }
