@@ -54,13 +54,13 @@
     </app-console-static>
   </app-sous-chapitre>
 </chapitre>
-<chapitre titre='Fonction anonymes'>
+<chapitre class="even" titre='Fonction anonymes'>
   <app-sous-chapitre>
     <p>En JavaScript tout est objet, y compris les fonctions. une fonction peut donc être utilisée comme une
       variable.</p>
     <app-console-static [text]="[
       'function toto(){',
-      '  console.log(\'{banana\');',
+      '  console.log(\'banana\');',
       '}',
       'function titi(toCall){',
       '  toCall();',
@@ -153,7 +153,7 @@
     (nodejs à aussi son contexte global de la même manière)
   </app-sous-chapitre>
 </chapitre>
-<chapitre titre="Comment forcer le contexte?">
+<chapitre class="even" titre="Comment forcer le contexte?">
   <p>Dans certains cas, on veut pouvoir forcer le contexte. notemment pour les callback. Et donc choisir le contexte qui
     va être appelé avant de passer la fonction en variable ou paramètre.</p>
   <app-sous-chapitre>

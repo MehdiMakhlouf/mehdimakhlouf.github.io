@@ -1,8 +1,18 @@
+:host > div {
+  background-color: #dcdcdc;
+}
+
+:host.even > div {
+  background-color: #f7f7f7;
+}
+
 .chapitre {
   min-height: 100vh;
-  padding: 1em 0;
+  padding: 10%;
 }
 
 .chapitre h2 {
+  margin: 0;
+  padding: 1.78rem 0 1.424rem 0;
   font-size: 2.5rem;
 }

@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ConsoleInteractiveService} from '../helpers/console-interactive.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { ConsoleInteractiveService } from '../helpers/console-interactive.service';
 
 @Component({
   selector: 'app-console-static',
@@ -18,7 +18,7 @@ export class ConsoleStaticComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.height = this.text.length.toString();
+    this.height = this.text.length.toString() + '.1';
     this.init = true;
   }
 
