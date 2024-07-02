@@ -1,9 +1,0 @@
-<div class="console-static">
-  <div [ngStyle]="{'height.em':height}" class="wrapper">
-    <ace-editor *ngIf="init" [text]="code"
-                [mode]="'javascript'"
-                [readOnly]="true" class="editor">
-    </ace-editor>
-  </div>
-  <button class="btn-floating btn-small export" (click)="export()"><i class="material-icons">import_export</i></button>
-</div>

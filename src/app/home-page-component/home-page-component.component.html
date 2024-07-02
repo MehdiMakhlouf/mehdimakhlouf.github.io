@@ -1,0 +1,32 @@
+<div class="backdrop-blur">
+  <input #input type="file" style="display: none" (change)="fileChange($event)" accept="image/png, image/jpeg">
+  <button mat-flat-button (click)="input.click()">
+    <mat-icon>favorite</mat-icon>Choisis ta photo
+  </button>
+
+  <mat-card class="example-result-card">
+    <mat-card-content>
+      <h2>Compression:
+        <label class="example-value-label">{{slider.value}}%</label></h2>
+      <mat-slider
+        class="example-margin"
+        [max]="90"
+        [min]="10">
+        <input matSliderThumb (valueChange)="compressionChange($event)" [value]="80" #slider>
+      </mat-slider>
+    </mat-card-content>
+  </mat-card>
+  <div class="flex" *ngIf="originalFileUrl">
+    <div class="flex flex-col items-center w-1/2">
+      <span>{{originalWeight/1024}}</span>
+      <img  [src]="originalFileUrl" class="image">
+    </div>
+    <div *ngIf="originalFile" class="flex flex-col items-center w-1/2">
+      <span>{{compressionWeight/1024}}</span>
+      <a [href]="compressionFileUrl" target="_blank" [download]="originalFile.name">
+        <img [src]="compressionFileUrl" class="image">
+      </a>
+    </div>
+  </div>
+
+</div>
